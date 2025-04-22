@@ -1,9 +1,16 @@
 
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import ChatContainer from './ChatContainer';
 import WelcomeScreen from './WelcomeScreen';
 import { cn } from '@/lib/utils';
-import { CircleUserRound, BookOpen, Library, GraduationCap, LucideIcon } from 'lucide-react';
+import { 
+  CircleUserRound, 
+  BookOpen, 
+  Library, 
+  GraduationCap, 
+  LucideIcon, 
+  Menu 
+} from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 
 interface SidebarItemProps {
@@ -16,15 +23,15 @@ interface SidebarItemProps {
 const SidebarItem = ({ icon: Icon, label, active, onClick }: SidebarItemProps) => (
   <button
     className={cn(
-      'flex items-center gap-3 w-full p-3 rounded-lg transition-colors',
+      'flex items-center gap-3 w-full p-3 rounded-lg transition-all duration-300',
       active 
-        ? 'bg-indigo-100 text-indigo-800' 
-        : 'hover:bg-gray-100 text-gray-700'
+        ? 'bg-indigo-100/70 text-indigo-800 hover:bg-indigo-100' 
+        : 'hover:bg-gray-100/50 text-gray-700 hover:text-gray-900'
     )}
     onClick={onClick}
   >
-    <Icon size={20} />
-    <span>{label}</span>
+    <Icon size={20} className="shrink-0" />
+    <span className="text-sm font-medium truncate">{label}</span>
   </button>
 );
 
@@ -33,7 +40,6 @@ const MainLayout = () => {
   const [showWelcome, setShowWelcome] = useState(true);
   const isMobile = useIsMobile();
   
-  // Close sidebar by default on mobile
   useEffect(() => {
     if (isMobile) {
       setSidebarOpen(false);
@@ -41,31 +47,29 @@ const MainLayout = () => {
   }, [isMobile]);
 
   return (
-    <div className="h-screen flex overflow-hidden bg-gray-50">
-      {/* Welcome Screen */}
+    <div className="h-screen flex overflow-hidden bg-gradient-to-br from-indigo-50 to-white">
       {showWelcome && <WelcomeScreen onGetStarted={() => setShowWelcome(false)} />}
       
-      {/* Sidebar */}
       <aside 
         className={cn(
-          "bg-white p-4 border-r transition-all duration-300 ease-in-out",
+          "bg-white/80 backdrop-blur-lg border-r border-gray-100 shadow-sm transition-all duration-300 ease-in-out overflow-hidden",
           sidebarOpen ? "w-64" : "w-0 -ml-4 md:ml-0 md:w-16",
-          isMobile && sidebarOpen ? "absolute z-10 h-full shadow-lg" : ""
+          isMobile && sidebarOpen ? "absolute z-20 h-full" : ""
         )}
       >
-        <div className="flex items-center mb-8">
+        <div className="flex items-center p-4 border-b border-gray-100">
           {sidebarOpen && (
-            <>
-              <GraduationCap size={28} className="text-indigo-600 mr-2" />
-              <h1 className="text-xl font-bold text-gray-900">Spark AI</h1>
-            </>
+            <div className="flex items-center space-x-3">
+              <GraduationCap size={28} className="text-indigo-600" />
+              <h1 className="text-xl font-bold text-gray-900 tracking-tight">Spark AI</h1>
+            </div>
           )}
           {!sidebarOpen && !isMobile && (
             <GraduationCap size={24} className="text-indigo-600 mx-auto" />
           )}
         </div>
         
-        <nav className="space-y-2">
+        <nav className="p-2 space-y-1">
           <SidebarItem 
             icon={CircleUserRound} 
             label="Personal Tutor" 
@@ -82,49 +86,34 @@ const MainLayout = () => {
         </nav>
       </aside>
 
-      {/* Main content */}
       <main className="flex-1 flex flex-col overflow-hidden">
-        {/* Top bar */}
-        <header className="bg-white border-b px-4 py-3 flex items-center justify-between">
+        <header className="bg-white/80 backdrop-blur-lg border-b border-gray-100 px-4 py-3 flex items-center justify-between shadow-sm">
           <button 
             className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
             onClick={() => setSidebarOpen(!sidebarOpen)}
           >
-            <svg 
-              xmlns="http://www.w3.org/2000/svg" 
-              className="h-6 w-6 text-gray-600" 
-              fill="none" 
-              viewBox="0 0 24 24" 
-              stroke="currentColor"
-            >
-              <path 
-                strokeLinecap="round" 
-                strokeLinejoin="round" 
-                strokeWidth={2} 
-                d="M4 6h16M4 12h16M4 18h16" 
-              />
-            </svg>
+            <Menu className="h-6 w-6 text-gray-600" />
           </button>
           
           <div className="text-center flex-1">
-            <h1 className="text-lg font-medium text-gray-800">Educational AI Assistant</h1>
+            <h1 className="text-lg font-semibold text-gray-800 tracking-tight">
+              Educational AI Assistant
+            </h1>
           </div>
           
-          <div className="w-8"></div> {/* Spacer to center the title */}
+          <div className="w-8"></div>
         </header>
         
-        {/* Chat container */}
         <div className="flex-1 overflow-hidden p-4">
-          <div className="bg-white rounded-xl shadow-sm h-full p-4 max-w-4xl mx-auto">
+          <div className="bg-white/80 backdrop-blur-lg rounded-2xl shadow-lg h-full p-4 max-w-4xl mx-auto border border-gray-100">
             <ChatContainer />
           </div>
         </div>
       </main>
       
-      {/* Mobile overlay when sidebar is open */}
       {isMobile && sidebarOpen && (
         <div 
-          className="fixed inset-0 bg-black bg-opacity-50 z-0"
+          className="fixed inset-0 bg-black/30 backdrop-blur-sm z-10"
           onClick={() => setSidebarOpen(false)}
         />
       )}
