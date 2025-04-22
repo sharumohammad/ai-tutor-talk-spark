@@ -83,7 +83,7 @@ const ChatContainer = () => {
       {/* Header */}
       <div className="flex justify-between items-center mb-2 px-3 md:px-6 pt-3 pb-3">
         <div className="flex items-center gap-3">
-          <h2 className="text-2xl font-bold text-purple-700 tracking-tight drop-shadow select-none">LearnVibe AI</h2>
+          <h2 className="text-2xl font-bold text-emerald-700 tracking-tight drop-shadow select-none">EduSpark</h2>
           {isConnected ? (
             <div className="flex items-center ml-2 text-xs text-green-500 bg-green-100/80 px-2 py-0.5 rounded-full shadow">
               <Wifi size={15} className="mr-1" />
@@ -99,7 +99,7 @@ const ChatContainer = () => {
         <Button
           variant="ghost"
           size="sm"
-          className="text-indigo-400 hover:text-purple-700 hover:bg-purple-100 rounded-2xl transition"
+          className="text-emerald-400 hover:text-emerald-700 hover:bg-green-100 rounded-2xl transition"
           onClick={clearMessages}
         >
           <Trash2 size={19} className="mr-1" /> Clear
