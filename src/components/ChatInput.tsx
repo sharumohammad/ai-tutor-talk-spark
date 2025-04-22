@@ -29,76 +29,62 @@ const ChatInput = ({ onSendMessage, isProcessing }: ChatInputProps) => {
       handleSubmit(e);
       return;
     }
-    
-    // Set typing indicator
     if (!isTyping) {
       setIsTyping(true);
-      // Notify that user started typing
       socketService.send({
         type: 'typing_indicator',
         user: 'user',
         isTyping: true
       });
     }
-    
-    // Clear existing timeout
-    if (typingTimeout) {
-      clearTimeout(typingTimeout);
-    }
-    
-    // Set new timeout to turn off typing indicator after 2 seconds of inactivity
-    const newTimeout = setTimeout(() => {
+    if (typingTimeout) clearTimeout(typingTimeout);
+    setTypingTimeout(setTimeout(() => {
       setIsTyping(false);
       socketService.send({
         type: 'typing_indicator',
         user: 'user',
         isTyping: false
       });
-    }, 2000);
-    
-    setTypingTimeout(newTimeout);
+    }, 2000));
   };
-  
-  // Focus the input when processing completes
+
   useEffect(() => {
     if (!isProcessing && inputRef.current) {
       inputRef.current.focus();
     }
   }, [isProcessing]);
-  
-  // Clean up the timeout on unmount
+
   useEffect(() => {
     return () => {
-      if (typingTimeout) {
-        clearTimeout(typingTimeout);
-      }
-    };
+      if (typingTimeout) clearTimeout(typingTimeout);
+    }
   }, [typingTimeout]);
 
   return (
-    <form onSubmit={handleSubmit} className="mt-4 relative">
-      <div className="relative">
+    <form onSubmit={handleSubmit} className="relative">
+      <div className="relative bg-white/85 rounded-xl shadow-sm flex items-end border border-indigo-100">
         <textarea
           ref={inputRef}
-          className="w-full p-4 pr-12 border rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent resize-none bg-white text-gray-800"
-          placeholder={isProcessing ? "Processing..." : "Ask anything... (Press Enter to send)"}
-          rows={1}
+          className="w-full bg-transparent px-4 py-3 rounded-xl resize-none text-base text-gray-800 focus-glow focus:outline-none"
+          placeholder={isProcessing ? "Processing..." : "Type your question, then press Enter"}
+          rows={2}
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           onKeyDown={handleKeyDown}
           disabled={isProcessing}
-          style={{ minHeight: '60px', maxHeight: '150px' }}
+          style={{ minHeight: 50, maxHeight: 120 }}
         />
         <Button
           type="submit"
-          className="absolute right-2 bottom-2 p-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white transition-colors"
+          size="icon"
+          className="absolute right-2 bottom-2 bg-indigo-500 hover:bg-indigo-600 text-white rounded-lg"
           disabled={!message.trim() || isProcessing}
         >
           <Send size={20} />
         </Button>
       </div>
       {isProcessing && (
-        <div className="text-sm text-gray-500 mt-1">
+        <div className="text-xs text-indigo-400 mt-1 px-1 font-medium animate-pulse">
           AI is thinking...
         </div>
       )}
