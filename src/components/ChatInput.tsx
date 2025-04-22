@@ -62,11 +62,11 @@ const ChatInput = ({ onSendMessage, isProcessing }: ChatInputProps) => {
 
   return (
     <form onSubmit={handleSubmit} className="relative w-full">
-      <div className="relative rounded-2xl shadow-lg flex items-end border border-indigo-200 ring-2 ring-purple-200 min-h-[55px] bg-chatbox">
+      <div className="rounded-lg border border-gray-200 flex items-end min-h-[55px] bg-white">
         <textarea
           ref={inputRef}
-          className="w-full bg-transparent px-4 py-4 rounded-2xl resize-none text-base text-purple-900 placeholder:italic font-medium focus:outline-none focus:ring-2 focus:ring-purple-300 min-h-[55px] max-h-32 transition"
-          placeholder={isProcessing ? "AI is crafting wisdom..." : "Write your question and press Enter"}
+          className="w-full px-4 py-3 rounded-lg resize-none text-base text-gray-800 placeholder:text-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-300 min-h-[55px] max-h-32 transition"
+          placeholder={isProcessing ? "Processing..." : "Ask a question"}
           rows={2}
           value={message}
           onChange={(e) => setMessage(e.target.value)}
@@ -76,15 +76,15 @@ const ChatInput = ({ onSendMessage, isProcessing }: ChatInputProps) => {
         <Button
           type="submit"
           size="icon"
-          className="absolute right-3 bottom-3 bg-gradient-to-tr from-purple-500 to-indigo-400 hover:bg-purple-600 text-white rounded-xl shadow focus:ring-2 focus:ring-purple-300 transition"
+          className="absolute right-3 bottom-3 bg-gray-800 hover:bg-gray-700 text-white rounded-lg shadow-sm focus:ring-1 focus:ring-gray-500 transition"
           disabled={!message.trim() || isProcessing}
         >
-          <Send size={22} />
+          <Send size={20} />
         </Button>
       </div>
       {isProcessing && (
-        <div className="text-xs text-purple-400 mt-2 px-1 font-semibold animate-pulse text-center">
-          AI is crafting wisdom...
+        <div className="text-xs text-gray-500 mt-2 px-1 font-semibold text-center">
+          Generating response...
         </div>
       )}
     </form>

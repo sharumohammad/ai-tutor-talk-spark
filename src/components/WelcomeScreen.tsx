@@ -1,7 +1,7 @@
 
 import { useRef } from 'react';
 import { Button } from '@/components/ui/button';
-import { Home, MessageSquare, Users, Settings, ArrowRight } from 'lucide-react';
+import { Home, MessageSquare, Users, Settings } from 'lucide-react';
 
 interface WelcomeScreenProps {
   onGetStarted: () => void;
@@ -24,19 +24,18 @@ const WelcomeScreen = ({ onGetStarted }: WelcomeScreenProps) => {
   return (
     <div
       ref={containerRef}
-      className="fixed inset-0 z-30 flex items-center justify-center bg-gradient-to-br from-[#dcfaec] via-[#f7fcf9] to-[#def6ee] animate-fade-in transition-all"
-      style={{ backdropFilter: 'blur(12px)' }}
+      className="fixed inset-0 z-30 flex items-center justify-center bg-white animate-fade-in transition-all"
     >
-      <div className="max-w-2xl mx-auto p-12 bg-white/90 shadow-2xl rounded-3xl text-center border border-emerald-100/70">
+      <div className="max-w-2xl mx-auto p-12 bg-white shadow-lg rounded-lg text-center border border-gray-100">
         <div className="flex justify-center mb-7">
-          <div className="p-7 bg-green-100/80 rounded-full backdrop-blur-sm shadow-xl">
-            <span className="sidebar-logo select-none">🌿</span>
+          <div className="p-6 bg-gray-100 rounded-full">
+            <span className="sidebar-logo select-none">📚</span>
           </div>
         </div>
 
-        <h1 className="text-5xl font-extrabold text-emerald-700 mb-3 tracking-tight font-sans drop-shadow">Welcome to EduSpark</h1>
-        <p className="text-lg text-emerald-900 mb-6 font-medium drop-shadow-sm">
-          A friendly way to chat, learn, and explore with your personal AI tutor.
+        <h1 className="text-4xl font-bold text-gray-800 mb-3 tracking-tight">Learn AI</h1>
+        <p className="text-lg text-gray-600 mb-6 font-medium">
+          Your friendly AI learning companion.
         </p>
 
         <div className="grid md:grid-cols-4 gap-4 mb-8">
@@ -44,63 +43,44 @@ const WelcomeScreen = ({ onGetStarted }: WelcomeScreenProps) => {
             {
               icon: Home,
               title: "Dashboard",
-              description: "Your home for learning.",
-              color: "text-emerald-400"
+              description: "Your learning hub.",
+              color: "text-gray-500"
             },
             {
               icon: MessageSquare,
-              title: "Converse",
-              description: "Ask and chat with Spark.",
-              color: "text-cyan-500"
+              title: "Chat",
+              description: "Ask questions.",
+              color: "text-gray-500"
             },
             {
               icon: Users,
-              title: "Friends",
+              title: "Community",
               description: "Connect & share.",
-              color: "text-pink-400"
+              color: "text-gray-500"
             },
             {
               icon: Settings,
-              title: "Account",
-              description: "Tweak your experience.",
-              color: "text-lime-500"
+              title: "Settings",
+              description: "Customize experience.",
+              color: "text-gray-500"
             }
           ].map(({ icon: Icon, title, description, color }) => (
             <div
               key={title}
-              className="bg-gradient-to-br from-green-50/80 to-emerald-100/90 p-6 rounded-xl border border-emerald-100 shadow hover:shadow-md"
+              className="bg-gray-50 p-6 rounded-lg border border-gray-200 shadow-sm hover:bg-gray-100 transition"
             >
-              <Icon className={`${color} mb-2`} size={32} />
-              <h3 className="font-bold text-emerald-700 mb-1">{title}</h3>
-              <p className="text-emerald-500 text-xs">{description}</p>
+              <Icon className={`${color} mb-2`} size={28} />
+              <h3 className="font-semibold text-gray-800 mb-1">{title}</h3>
+              <p className="text-gray-500 text-xs">{description}</p>
             </div>
           ))}
         </div>
 
-        <div className="mb-7">
-          <h2 className="text-base font-bold text-emerald-700 mb-2">Try a question:</h2>
-          <div className="flex flex-wrap justify-center gap-3">
-            {[
-              "How does rain form?",
-              "What are photosynthesis steps?",
-              "Explain gravity in simple words.",
-            ].map(prompt => (
-              <div
-                key={prompt}
-                className="bg-green-100 px-4 py-1.5 rounded-full text-emerald-600 text-sm font-semibold hover:bg-emerald-100 transition"
-              >
-                "{prompt}"
-              </div>
-            ))}
-          </div>
-        </div>
-
         <Button
           onClick={handleGetStarted}
-          className="bg-gradient-to-r from-emerald-500 via-green-400 to-cyan-400 hover:from-green-600 hover:to-emerald-400 text-white px-12 py-3 shadow-lg text-xl rounded-2xl group font-bold tracking-wide transition"
+          className="bg-gray-800 hover:bg-gray-700 text-white px-10 py-3 rounded-lg text-lg font-semibold transition"
         >
-          Dive In
-          <ArrowRight size={24} className="ml-2 transition-transform group-hover:translate-x-1" />
+          Get Started
         </Button>
       </div>
     </div>
