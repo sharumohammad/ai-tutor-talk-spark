@@ -62,11 +62,11 @@ const ChatInput = ({ onSendMessage, isProcessing }: ChatInputProps) => {
 
   return (
     <form onSubmit={handleSubmit} className="relative w-full">
-      <div className="relative bg-gradient-to-r from-pink-50 via-indigo-50 to-white rounded-2xl shadow-md flex items-end border border-indigo-100 ring-2 ring-pink-100 min-h-[55px]">
+      <div className="relative rounded-2xl shadow-lg flex items-end border border-indigo-200 ring-2 ring-purple-200 min-h-[55px] bg-chatbox">
         <textarea
           ref={inputRef}
-          className="w-full bg-transparent px-4 py-4 rounded-2xl resize-none text-base text-indigo-800 placeholder:italic font-medium focus:outline-none focus:ring-2 focus:ring-pink-200 min-h-[55px] max-h-32 transition"
-          placeholder={isProcessing ? "AI is thinking..." : "Write your question and press Enter"}
+          className="w-full bg-transparent px-4 py-4 rounded-2xl resize-none text-base text-purple-900 placeholder:italic font-medium focus:outline-none focus:ring-2 focus:ring-purple-300 min-h-[55px] max-h-32 transition"
+          placeholder={isProcessing ? "AI is crafting wisdom..." : "Write your question and press Enter"}
           rows={2}
           value={message}
           onChange={(e) => setMessage(e.target.value)}
@@ -76,15 +76,15 @@ const ChatInput = ({ onSendMessage, isProcessing }: ChatInputProps) => {
         <Button
           type="submit"
           size="icon"
-          className="absolute right-3 bottom-3 bg-pink-500 hover:bg-pink-600 text-white rounded-xl shadow focus:ring-2 focus:ring-pink-300 transition"
+          className="absolute right-3 bottom-3 bg-gradient-to-tr from-purple-500 to-indigo-400 hover:bg-purple-600 text-white rounded-xl shadow focus:ring-2 focus:ring-purple-300 transition"
           disabled={!message.trim() || isProcessing}
         >
           <Send size={22} />
         </Button>
       </div>
       {isProcessing && (
-        <div className="text-xs text-pink-400 mt-2 px-1 font-semibold animate-pulse text-center">
-          AI is thinking...
+        <div className="text-xs text-purple-400 mt-2 px-1 font-semibold animate-pulse text-center">
+          AI is crafting wisdom...
         </div>
       )}
     </form>

@@ -3,90 +3,113 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&display=swap');
 
 @layer base {
   :root {
-    --background: 340 100% 97%;
-    --foreground: 237 35% 18%;
+    --background: 244 67% 97%;
+    --foreground: 235 40% 14%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 237 35% 20%;
+    --card: 228 25% 99%;
+    --card-foreground: 235 42% 14%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 237 35% 18%;
+    --popover-foreground: 235 42% 14%;
 
-    --primary: 327 88% 72%;
+    --primary: 258 88% 66%;
     --primary-foreground: 210 40% 98%;
 
-    --secondary: 237 100% 96%;
-    --secondary-foreground: 237 35% 18%;
+    --secondary: 236 100% 92%;
+    --secondary-foreground: 232 22% 18%;
 
     --muted: 237 100% 96%;
-    --muted-foreground: 231 26% 71%;
+    --muted-foreground: 236 20% 60%;
 
-    --accent: 210 40% 98%;
-    --accent-foreground: 237 35% 18%;
+    --accent: 201 100% 85%;
+    --accent-foreground: 232 22% 18%;
 
-    --destructive: 0 84.2% 60.2%;
+    --destructive: 0 78% 65%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 340 74% 98%;
-    --input: 238 35% 93%;
-    --ring: 330 60% 77%;
+    --border: 239 95% 93%;
+    --input: 240 22% 95%;
+    --ring: 258 54% 62%;
 
-    --radius: 1.1rem;
+    --radius: 1.2rem;
 
-    --glass-bg: hsla(340, 33%, 99%, .56);
+    --glass-bg: hsla(248, 33%, 99%, .58);
   }
 
   html, body {
-    font-family: 'Inter', system-ui, 'Segoe UI', sans-serif;
-    background: linear-gradient(115deg, #f8fafc 0%, #fceff1 65%, #e0e7ff 100%);
+    font-family: 'Quicksand', system-ui, 'Segoe UI', sans-serif;
+    background: linear-gradient(112deg, #e3ecfc 0%, #ece6f6 52%, #eaeaf8 100%);
     min-height: 100vh;
     color: hsl(var(--foreground));
   }
 
   .dark {
-    --background: 233 38% 14%;
-    --foreground: 210 40% 98%;
-    --card: 233 38% 17%;
+    --background: 242 41% 13%;
+    --foreground: 220 40% 98%;
+    --card: 242 42% 17%;
     --card-foreground: 222.2 84% 98%;
-
-    --primary: 327 88% 76%;
-    --primary-foreground: 233 38% 17%;
-    --border: 233 38% 27%;
-    --glass-bg: hsla(333, 44%, 23%, .67);
+    --primary: 258 82% 80%;
+    --primary-foreground: 242 42% 17%;
+    --border: 242 44% 22%;
+    --glass-bg: hsla(258,44%,23%,.67);
   }
 }
 
+/* Sidebar look */
 @layer components {
-  .bubble {
-    @apply rounded-3xl px-5 py-3 text-base shadow-md;
+  .sidebar-logo {
+    font-size: 2.35rem;
+    filter: drop-shadow(0 2px 12px #b794f4c9);
+    font-family: 'Quicksand', 'Segoe UI', sans-serif;
   }
-  .focus-glow:focus {
-    outline: 2px solid #f472b6;
-    box-shadow: 0 1px 7px 0 #f472b642;
+  .sidebar-brand {
+    font-family: 'Quicksand', 'Segoe UI', sans-serif;
+    font-size: 2rem;
   }
-  .scrollbar-none {
-    scrollbar-width: none;
-    -ms-overflow-style: none;
+  .sidebar-menu-item-active {
+    @apply bg-gradient-to-r from-purple-600/80 to-indigo-400/90 text-white shadow-xl;
   }
-  .scrollbar-none::-webkit-scrollbar {
-    display: none;
+  .sidebar-menu-item {
+    @apply text-indigo-800 hover:bg-indigo-100/50 rounded-2xl px-4 py-3 font-semibold transition-all;
   }
 }
 
-/* Chat input and sidebar */
-.bg-main-gradient {
-  background: linear-gradient(120deg, #e0e7ff 0%, #fde4e0 90%);
+.bubble-user {
+  background: linear-gradient(90deg, #8e82ff 10%, #8ec8fd 90%) !important;
+  color: white !important;
+  font-weight: 600 !important;
+  text-shadow: 0 1px 9px #8e82ff18;
 }
 
-.card-gradient {
-  background: linear-gradient(115deg, #eef2ff 0%, #fceff1 64%, #ffffff 100%);
+.bubble-ai {
+  background: linear-gradient(90deg, #f5f7fa 0%, #c3d7fc 100%) !important;
+  color: #332d57 !important;
+  font-weight: 500 !important;
+  text-shadow: none;
 }
 
-/* Glassmorphism for new style */
-.glass-card {
-  @apply bg-white/80 border border-pink-100 backdrop-blur-xl rounded-3xl shadow-xl;
+.bg-chatbox {
+  background: linear-gradient(120deg, #f5f7fa 40%, #b5a9e6 120%);
+  border: 2.5px solid #e3dffa;
+  box-shadow: 0 7px 48px -18px #7e57c230;
+}
+
+.bg-chatbox-dark {
+  background: linear-gradient(116deg, #322b63 20%, #1e2c51 100%);
+  border: 2.5px solid #4a437a;
+  color: #fff;
+  box-shadow: 0 7px 48px -18px #34276940;
+}
+
+::-webkit-scrollbar {
+  width: 7px;
+  background: #e5e4fa;
+}
+::-webkit-scrollbar-thumb {
+  background: #bcb5f5;
+  border-radius: 14px;
 }
