@@ -1,5 +1,5 @@
 
-import { useState, KeyboardEvent, FormEvent, useEffect } from 'react';
+import { useState, KeyboardEvent, FormEvent, useEffect, useRef } from 'react';
 import { Send } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import socketService from '@/services/socketService';
@@ -13,11 +13,12 @@ const ChatInput = ({ onSendMessage, isProcessing }: ChatInputProps) => {
   const [message, setMessage] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [typingTimeout, setTypingTimeout] = useState<NodeJS.Timeout | null>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     if (message.trim() && !isProcessing) {
-      onSendMessage(message);
+      onSendMessage(message.trim());
       setMessage('');
     }
   };
@@ -26,6 +27,7 @@ const ChatInput = ({ onSendMessage, isProcessing }: ChatInputProps) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       handleSubmit(e);
+      return;
     }
     
     // Set typing indicator
@@ -33,7 +35,7 @@ const ChatInput = ({ onSendMessage, isProcessing }: ChatInputProps) => {
       setIsTyping(true);
       // Notify that user started typing
       socketService.send({
-        type: 'user_typing',
+        type: 'typing_indicator',
         user: 'user',
         isTyping: true
       });
@@ -45,17 +47,24 @@ const ChatInput = ({ onSendMessage, isProcessing }: ChatInputProps) => {
     }
     
     // Set new timeout to turn off typing indicator after 2 seconds of inactivity
-    setTypingTimeout(
-      setTimeout(() => {
-        setIsTyping(false);
-        socketService.send({
-          type: 'user_typing',
-          user: 'user',
-          isTyping: false
-        });
-      }, 2000)
-    );
+    const newTimeout = setTimeout(() => {
+      setIsTyping(false);
+      socketService.send({
+        type: 'typing_indicator',
+        user: 'user',
+        isTyping: false
+      });
+    }, 2000);
+    
+    setTypingTimeout(newTimeout);
   };
+  
+  // Focus the input when processing completes
+  useEffect(() => {
+    if (!isProcessing && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [isProcessing]);
   
   // Clean up the timeout on unmount
   useEffect(() => {
@@ -70,8 +79,9 @@ const ChatInput = ({ onSendMessage, isProcessing }: ChatInputProps) => {
     <form onSubmit={handleSubmit} className="mt-4 relative">
       <div className="relative">
         <textarea
+          ref={inputRef}
           className="w-full p-4 pr-12 border rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent resize-none bg-white text-gray-800"
-          placeholder="Ask anything... (Press Enter to send)"
+          placeholder={isProcessing ? "Processing..." : "Ask anything... (Press Enter to send)"}
           rows={1}
           value={message}
           onChange={(e) => setMessage(e.target.value)}
@@ -87,6 +97,11 @@ const ChatInput = ({ onSendMessage, isProcessing }: ChatInputProps) => {
           <Send size={20} />
         </Button>
       </div>
+      {isProcessing && (
+        <div className="text-sm text-gray-500 mt-1">
+          AI is thinking...
+        </div>
+      )}
     </form>
   );
 };

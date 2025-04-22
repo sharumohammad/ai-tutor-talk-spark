@@ -20,6 +20,7 @@ export const useChatStore = create<ChatState>((set, get) => ({
       content: message.content,
       role: message.role,
       timestamp: Date.now(),
+      isLoading: message.isLoading || false,
     };
     
     set((state) => ({
@@ -35,7 +36,7 @@ export const useChatStore = create<ChatState>((set, get) => ({
       content,
       role: 'assistant',
       timestamp: Date.now(),
-      isLoading: false,
+      isLoading: true,
     };
     
     set((state) => ({
@@ -48,14 +49,14 @@ export const useChatStore = create<ChatState>((set, get) => ({
   updateLastAssistantMessage: (content) => {
     set((state) => {
       const messages = [...state.messages];
-      const lastAssistantMessageIndex = [...messages]
-        .reverse()
-        .findIndex((message) => message.role === 'assistant');
+      const lastAssistantIndex = messages
+        .map((msg, index) => ({ ...msg, index }))
+        .filter((msg) => msg.role === 'assistant')
+        .pop();
         
-      if (lastAssistantMessageIndex >= 0) {
-        const actualIndex = messages.length - 1 - lastAssistantMessageIndex;
-        messages[actualIndex] = {
-          ...messages[actualIndex],
+      if (lastAssistantIndex) {
+        messages[lastAssistantIndex.index] = {
+          ...messages[lastAssistantIndex.index],
           content,
           isLoading: false,
         };
@@ -79,6 +80,7 @@ export const useChatStore = create<ChatState>((set, get) => ({
           timestamp: Date.now(),
         },
       ],
+      isProcessing: false,
     });
   },
 }));

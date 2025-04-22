@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Trash2, Wifi, WifiOff } from 'lucide-react';
 import socketService from '@/services/socketService';
 import { useConnectionStatus } from '@/hooks/useConnectionStatus';
+import { useToast } from '@/hooks/use-toast';
 
 const ChatContainer = () => {
   const {
@@ -17,11 +18,13 @@ const ChatContainer = () => {
     addMessage,
     addAssistantMessage,
     setProcessing,
-    clearMessages
+    clearMessages,
+    updateLastAssistantMessage
   } = useChatStore();
   
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const isConnected = useConnectionStatus();
+  const { toast } = useToast();
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -52,32 +55,26 @@ const ChatContainer = () => {
   }, [isConnected]);
 
   const handleSendMessage = async (content: string) => {
-    // Add user message to state
-    addMessage({ content, role: 'user' });
-    
-    // Notify via socket service (in a real app, this would go to a server)
-    if (isConnected) {
-      socketService.send({
-        type: 'new_message',
-        content,
-        role: 'user',
-        timestamp: Date.now()
-      });
-    }
-    
-    // Add loading message for the assistant
-    const loadingMessage: Message = {
-      id: 'loading',
-      content: '',
-      role: 'assistant',
-      timestamp: Date.now(),
-      isLoading: true,
-    };
-    
-    addMessage(loadingMessage);
-    setProcessing(true);
-    
     try {
+      // Add user message to state
+      addMessage({ content, role: 'user' });
+      
+      // Notify via socket service (in a real app, this would go to a server)
+      if (isConnected) {
+        socketService.send({
+          type: 'new_message',
+          content,
+          role: 'user',
+          timestamp: Date.now()
+        });
+      }
+      
+      // Set processing state
+      setProcessing(true);
+      
+      // Add assistant loading message
+      const assistantMessage = addAssistantMessage('');
+      
       // Format messages for the API
       const messageHistory = messages
         .filter(msg => !msg.isLoading)
@@ -93,37 +90,23 @@ const ChatContainer = () => {
       // Get AI response
       const response = await generateAIResponse(messageHistory);
       
-      // Update the loading message with the actual response
-      const updatedMessages = messages.map(msg => 
-        msg.id === 'loading' 
-          ? { ...msg, id: 'response-' + Date.now(), content: response, isLoading: false } 
-          : msg
-      );
+      // Update the assistant message with the response
+      updateLastAssistantMessage(response);
       
-      // Remove loading message and add real response
-      useChatStore.setState({ 
-        messages: updatedMessages.filter(msg => msg.id !== 'loading'),
-        isProcessing: false
-      });
-      
+      // Set processing state to false
+      setProcessing(false);
     } catch (error) {
       console.error('Error in chat process:', error);
       
-      // Handle error by updating loading message
-      const updatedMessages = messages.map(msg => 
-        msg.id === 'loading' 
-          ? { 
-              ...msg, 
-              id: 'error-' + Date.now(), 
-              content: "I'm sorry, I encountered an error. Please try again.",
-              isLoading: false 
-            } 
-          : msg
-      );
+      // Add error message
+      updateLastAssistantMessage("I'm sorry, I encountered an error. Please try again.");
+      setProcessing(false);
       
-      useChatStore.setState({ 
-        messages: updatedMessages.filter(msg => msg.id !== 'loading'),
-        isProcessing: false
+      // Show error toast
+      toast({
+        title: "Error",
+        description: "Failed to get AI response. Please try again.",
+        variant: "destructive"
       });
     }
   };
