@@ -4,10 +4,10 @@ import ChatContainer from './ChatContainer';
 import WelcomeScreen from './WelcomeScreen';
 import { cn } from '@/lib/utils';
 import { 
-  GraduationCap,
+  Star,
+  MessageSquare, 
   BookOpen, 
-  Library, 
-  CircleUserRound, 
+  Users, 
   Menu 
 } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -22,52 +22,54 @@ const MainLayout = () => {
   }, [isMobile]);
 
   return (
-    <div className="min-h-screen w-full glass-bg flex">
+    <div className="min-h-screen w-full flex bg-gradient-to-br from-[#e0e7ff] via-[#f1f5f9] to-[#fde4e0] font-sans">
       {showWelcome && <WelcomeScreen onGetStarted={() => setShowWelcome(false)} />}
       {/* Sidebar */}
       <aside
         className={cn(
-          'transition-all duration-300 flex flex-col justify-between',
+          'transition-all duration-300 flex flex-col justify-between shadow-xl',
           sidebarOpen
-            ? 'w-60 md:w-72 glass-card shadow-lg visible'
+            ? 'w-64 bg-white/80 border-r border-indigo-100 backdrop-blur-xl visible'
             : 'w-0 opacity-0 pointer-events-none',
-          'overflow-hidden py-7 pl-2 pr-4 z-20'
+          'overflow-hidden py-8 pl-4 pr-2 z-20 min-h-screen'
         )}
-        style={{ minWidth: sidebarOpen ? 200 : 0 }}
+        style={{ minWidth: sidebarOpen ? 220 : 0 }}
       >
         <div>
-          <div className="flex items-center gap-3 mb-8 ml-3">
-            <GraduationCap size={32} className="text-indigo-500" />
-            <span className="text-2xl font-bold text-gray-900 tracking-tight">Spark AI</span>
+          <div className="flex items-center gap-3 mb-10 ml-2">
+            <div className="rounded-full bg-indigo-100 p-2 shadow">
+              <Star size={38} className="text-pink-500" />
+            </div>
+            <span className="text-3xl font-extrabold text-indigo-800 tracking-tight select-none">EduGenius</span>
           </div>
-          <nav className="space-y-3 mt-3">
-            <SidebarItem icon={CircleUserRound} label="Tutor" active />
-            <SidebarItem icon={BookOpen} label="Topics" />
-            <SidebarItem icon={Library} label="Library" />
+          <nav className="space-y-2 mt-3">
+            <SidebarItem icon={MessageSquare} label="Chat" active />
+            <SidebarItem icon={BookOpen} label="Lessons" />
+            <SidebarItem icon={Users} label="Community" />
           </nav>
         </div>
-        <div className="h-24 flex items-end ml-3">
-          <span className="text-xs text-gray-400">© {new Date().getFullYear()} Spark AI</span>
+        <div className="h-16 flex items-end ml-2">
+          <span className="text-sm text-indigo-300">© {new Date().getFullYear()} EduGenius</span>
         </div>
       </aside>
       {/* Main */}
       <div className="flex-1 flex flex-col min-h-screen">
         <header
-          className="w-full flex items-center justify-between px-4 py-5 glass-card border-t-0 border-l-0 border-r-0 sticky top-0 shadow-none z-10"
+          className="w-full flex items-center justify-between px-4 py-5 bg-white/90 border-b border-indigo-100 shadow-sm sticky top-0 z-10 transition"
         >
           <button
-            className="md:hidden block mr-4 rounded-lg p-2 focus-glow"
+            className="md:hidden block mr-3 rounded-lg p-2 bg-indigo-100 text-indigo-600 hover:bg-indigo-200 transition"
             onClick={() => setSidebarOpen(!sidebarOpen)}
           >
-            <Menu className="h-6 w-6 text-indigo-600" />
+            <Menu className="h-6 w-6" />
           </button>
           <div className="flex-1 text-center">
-            <span className="text-xl lg:text-2xl font-semibold tracking-tight text-indigo-900">AI Educational Tutor</span>
+            <span className="text-2xl lg:text-3xl font-semibold tracking-tight text-pink-600 drop-shadow-sm select-none">EduGenius Tutor</span>
           </div>
-          <div className="w-[36px]"></div>
+          <div className="w-[40px]"></div>
         </header>
-        <main className="flex-1 flex flex-col items-center justify-center p-3 sm:p-6">
-          <div className="w-full max-w-3xl glass-card p-1 sm:p-2 md:p-6 lg:p-8 min-h-[70vh] h-full shadow-xl border border-indigo-100/40">
+        <main className="flex-1 flex flex-col items-center justify-center p-3 sm:p-6 bg-transparent">
+          <div className="w-full max-w-3xl rounded-3xl bg-white/90 p-0 sm:p-3 md:p-8 min-h-[70vh] h-full shadow-2xl border border-pink-100/40">
             <ChatContainer />
           </div>
         </main>
@@ -75,7 +77,7 @@ const MainLayout = () => {
       {/* Backdrop for mobile sidebar */}
       {isMobile && sidebarOpen && (
         <div
-          className="fixed inset-0 z-10 bg-indigo-100/70 backdrop-blur-sm"
+          className="fixed inset-0 z-10 bg-indigo-200/60 backdrop-blur-md"
           onClick={() => setSidebarOpen(false)}
         />
       )}
@@ -87,15 +89,15 @@ function SidebarItem({ icon: Icon, label, active = false }: { icon: any, label: 
   return (
     <div
       className={cn(
-        'flex items-center gap-2 px-4 py-2 rounded-lg mb-1 w-full font-semibold transition-all cursor-pointer select-none',
+        'flex items-center gap-3 px-4 py-3 rounded-2xl mb-1 w-full font-medium text-lg cursor-pointer select-none transition-all',
         active
-          ? 'bg-indigo-100 text-indigo-700 shadow hover:bg-indigo-200'
-          : 'hover:bg-indigo-50 text-gray-600'
+          ? 'bg-gradient-to-br from-pink-100 via-indigo-100 to-white text-pink-600 shadow-md'
+          : 'hover:bg-indigo-50 text-indigo-800/90'
       )}
       tabIndex={0}
     >
-      <Icon className="w-5 h-5 text-indigo-400" />
-      <span className="text-base">{label}</span>
+      <Icon className={cn("w-6 h-6", active ? "text-pink-600" : "text-indigo-400")} />
+      <span>{label}</span>
     </div>
   );
 }

@@ -81,17 +81,17 @@ const ChatContainer = () => {
   return (
     <section className="flex flex-col h-full rounded-2xl min-h-[500px]">
       {/* Header */}
-      <div className="flex justify-between items-center mb-1 px-2 md:px-4 pt-4 pb-3">
-        <div className="flex items-center gap-2">
-          <h2 className="text-lg font-bold text-indigo-700 tracking-tight">Spark AI Tutor</h2>
+      <div className="flex justify-between items-center mb-2 px-3 md:px-6 pt-3 pb-3">
+        <div className="flex items-center gap-3">
+          <h2 className="text-2xl font-bold text-pink-600 tracking-tight">EduGenius Tutor</h2>
           {isConnected ? (
             <div className="flex items-center ml-2 text-xs text-green-500 bg-green-100/80 px-2 py-0.5 rounded-full">
-              <Wifi size={14} className="mr-0.5" />
+              <Wifi size={15} className="mr-1" />
               Connected
             </div>
           ) : (
             <div className="flex items-center ml-2 text-xs text-red-400 bg-red-100/80 px-2 py-0.5 rounded-full">
-              <WifiOff size={14} className="mr-0.5" />
+              <WifiOff size={15} className="mr-1" />
               Offline
             </div>
           )}
@@ -99,15 +99,15 @@ const ChatContainer = () => {
         <Button
           variant="ghost"
           size="sm"
-          className="text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-xl"
+          className="text-indigo-300 hover:text-pink-600 hover:bg-pink-50 rounded-2xl transition"
           onClick={clearMessages}
         >
-          <Trash2 size={18} className="mr-1" /> Clear
+          <Trash2 size={19} className="mr-1" /> Clear
         </Button>
       </div>
       {/* Chat */}
-      <div className="flex-1 overflow-y-auto px-1 sm:px-4 pb-4 scrollbar-none">
-        <div className="flex flex-col gap-2">
+      <div className="flex-1 overflow-y-auto px-1 sm:px-5 pb-4 scrollbar-none">
+        <div className="flex flex-col gap-3">
           {messages.map((message) => (
             <ChatMessage key={message.id} message={message} />
           ))}
@@ -115,7 +115,7 @@ const ChatContainer = () => {
         </div>
       </div>
       {/* Input */}
-      <div className="sticky bottom-0 mt-auto pt-2 pb-3 px-1 sm:px-4">
+      <div className="sticky bottom-0 mt-auto pt-3 pb-4 px-1 sm:px-5 bg-transparent">
         <ChatInput onSendMessage={handleSendMessage} isProcessing={isProcessing} />
       </div>
     </section>

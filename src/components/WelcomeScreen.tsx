@@ -1,7 +1,7 @@
 
 import { useRef } from 'react';
 import { Button } from '@/components/ui/button';
-import { GraduationCap, ArrowRight, BookOpen, Lightbulb, Zap } from 'lucide-react';
+import { Star, BookOpen, Lightbulb, Users, ArrowRight } from 'lucide-react';
 
 interface WelcomeScreenProps {
   onGetStarted: () => void;
@@ -24,56 +24,56 @@ const WelcomeScreen = ({ onGetStarted }: WelcomeScreenProps) => {
   return (
     <div
       ref={containerRef}
-      className="fixed inset-0 z-30 flex items-center justify-center glass-bg bg-gradient-to-br from-violet-200 via-indigo-100 to-white animate-fade-in transition-all"
-      style={{ backdropFilter: 'blur(9px)' }}
+      className="fixed inset-0 z-30 flex items-center justify-center bg-gradient-to-br from-pink-50 via-indigo-50 to-white animate-fade-in transition-all"
+      style={{ backdropFilter: 'blur(11px)' }}
     >
-      <div className="max-w-2xl mx-auto p-10 bg-white/80 shadow-2xl rounded-2xl text-center border border-indigo-100/40">
+      <div className="max-w-2xl mx-auto p-12 bg-white/85 shadow-2xl rounded-3xl text-center border border-indigo-100/40">
         <div className="flex justify-center mb-6">
-          <div className="p-5 bg-indigo-100/80 rounded-full backdrop-blur-sm shadow">
-            <GraduationCap size={52} className="text-indigo-600" />
+          <div className="p-6 bg-pink-100/80 rounded-full backdrop-blur-sm shadow-lg">
+            <Star size={60} className="text-pink-500" />
           </div>
         </div>
 
-        <h1 className="text-4xl font-bold text-indigo-800 mb-3">Welcome to Spark AI Tutor</h1>
-        <p className="text-lg text-indigo-600/90 mb-7">
-          Your personal, conversational learning assistant for a smarter educational journey.
+        <h1 className="text-5xl font-extrabold text-pink-600 mb-3 tracking-tight">Welcome to EduGenius</h1>
+        <p className="text-lg text-indigo-700/90 mb-6">
+          Your all-in-one, conversational learning assistant for a brighter educational journey.
         </p>
 
-        <div className="grid md:grid-cols-3 gap-4 mb-6">
+        <div className="grid md:grid-cols-3 gap-4 mb-7">
           {[
             {
               icon: BookOpen,
-              title: "Adaptive",
-              description: "Personal guidance for your learning curve.",
+              title: "Lessons",
+              description: "Adaptive lesson journeys for any learner.",
               color: "text-indigo-400"
             },
             {
               icon: Lightbulb,
-              title: "Conversational",
-              description: "Learn with dialog & real insights.",
+              title: "Conversation",
+              description: "Dialog-driven, easy Q&A with insight.",
               color: "text-amber-400"
             },
             {
-              icon: Zap,
-              title: "Instant",
-              description: "Get quick, clear answers.",
+              icon: Users,
+              title: "Community",
+              description: "Learner network and tips sharing.",
               color: "text-pink-400"
             }
           ].map(({ icon: Icon, title, description, color }) => (
             <div
               key={title}
-              className="backdrop-blur bg-indigo-50/70 p-5 rounded-xl border border-indigo-100 shadow hover:shadow-md"
+              className="bg-white/80 p-5 rounded-xl border border-pink-100 shadow hover:shadow-md"
             >
-              <Icon className={`${color} mb-2`} size={27} />
-              <h3 className="font-semibold text-indigo-800 mb-1">{title}</h3>
+              <Icon className={`${color} mb-2`} size={29} />
+              <h3 className="font-bold text-pink-600 mb-1">{title}</h3>
               <p className="text-indigo-500 text-xs">{description}</p>
             </div>
           ))}
         </div>
 
-        <div className="mb-6">
-          <h2 className="text-base font-medium text-indigo-800 mb-2">Try one of these:</h2>
-          <div className="flex flex-wrap justify-center gap-2">
+        <div className="mb-7">
+          <h2 className="text-base font-bold text-indigo-800 mb-2">Try a question:</h2>
+          <div className="flex flex-wrap justify-center gap-3">
             {[
               "What is quantum physics?",
               "Explain photosynthesis simply.",
@@ -81,7 +81,7 @@ const WelcomeScreen = ({ onGetStarted }: WelcomeScreenProps) => {
             ].map(prompt => (
               <div
                 key={prompt}
-                className="bg-indigo-100 px-3 py-1 rounded-full text-indigo-700 text-sm hover:bg-indigo-200 transition"
+                className="bg-pink-100 px-4 py-1.5 rounded-full text-pink-600 text-sm font-semibold hover:bg-pink-200 transition"
               >
                 "{prompt}"
               </div>
@@ -91,10 +91,10 @@ const WelcomeScreen = ({ onGetStarted }: WelcomeScreenProps) => {
 
         <Button
           onClick={handleGetStarted}
-          className="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-3 shadow-lg text-lg rounded-lg group"
+          className="bg-pink-600 hover:bg-pink-700 text-white px-10 py-3 shadow-lg text-xl rounded-2xl group font-bold tracking-wide transition"
         >
           Get Started
-          <ArrowRight size={20} className="ml-2 transition-transform group-hover:translate-x-1" />
+          <ArrowRight size={23} className="ml-2 transition-transform group-hover:translate-x-1" />
         </Button>
       </div>
     </div>

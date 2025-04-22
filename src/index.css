@@ -3,81 +3,90 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;900&display=swap');
 
 @layer base {
   :root {
-    --background: 217 100% 97%;
-    --foreground: 222.2 84% 4.9%;
+    --background: 340 100% 97%;
+    --foreground: 237 35% 18%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 237 35% 20%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 237 35% 18%;
 
-    --primary: 255 82% 60%;
+    --primary: 327 88% 72%;
     --primary-foreground: 210 40% 98%;
 
-    --secondary: 213 100% 93%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 237 100% 96%;
+    --secondary-foreground: 237 35% 18%;
 
-    --muted: 212 100% 93%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 237 100% 96%;
+    --muted-foreground: 231 26% 71%;
 
     --accent: 210 40% 98%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent-foreground: 237 35% 18%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 218 42% 87%;
-    --input: 217 35% 94%;
-    --ring: 222.2 84% 4.9%;
+    --border: 340 74% 98%;
+    --input: 238 35% 93%;
+    --ring: 330 60% 77%;
 
-    --radius: 0.7rem;
+    --radius: 1.1rem;
 
-    --glass-bg: hsla(0,0%,100%,.7);
+    --glass-bg: hsla(340, 33%, 99%, .56);
+  }
+
+  html, body {
+    font-family: 'Inter', system-ui, 'Segoe UI', sans-serif;
+    background: linear-gradient(115deg, #f8fafc 0%, #fceff1 65%, #e0e7ff 100%);
+    min-height: 100vh;
+    color: hsl(var(--foreground));
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
+    --background: 233 38% 14%;
     --foreground: 210 40% 98%;
-    --card: 222.2 84% 8.5%;
-    --card-foreground: 210 40% 98%;
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-    --border: 219 18% 21%;
-    --glass-bg: hsla(218,38%,15%,.67);
+    --card: 233 38% 17%;
+    --card-foreground: 222.2 84% 98%;
+
+    --primary: 327 88% 76%;
+    --primary-foreground: 233 38% 17%;
+    --border: 233 38% 27%;
+    --glass-bg: hsla(333, 44%, 23%, .67);
   }
 }
 
 @layer components {
-  .glass-card {
-    @apply bg-white/60 dark:bg-[#222f] border border-white/40 dark:border-white/10 shadow-lg backdrop-blur-2xl rounded-2xl;
-  }
-  .bubble-ai {
-    @apply bg-white/70 text-gray-800 dark:bg-white/10 dark:text-gray-100;
-  }
-  .bubble-user {
-    @apply bg-primary/90 text-white;
-  }
   .bubble {
-    @apply rounded-2xl px-5 py-3 text-base shadow transition-all;
-  }
-  .bubble.user {
-    border-bottom-right-radius: 0.5rem;
-    border-top-right-radius: 0.5rem;
-  }
-  .bubble.ai {
-    border-bottom-left-radius: 0.5rem;
-    border-top-left-radius: 0.5rem;
-  }
-  .glass-bg {
-    background: linear-gradient(120deg, #f2f8ff 0%, #e9e1fc 100%);
+    @apply rounded-3xl px-5 py-3 text-base shadow-md;
   }
   .focus-glow:focus {
-    outline: 2px solid #a78bfa;
-    box-shadow: 0 1px 7px 0 #a78bfa55;
+    outline: 2px solid #f472b6;
+    box-shadow: 0 1px 7px 0 #f472b642;
   }
+  .scrollbar-none {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Chat input and sidebar */
+.bg-main-gradient {
+  background: linear-gradient(120deg, #e0e7ff 0%, #fde4e0 90%);
+}
+
+.card-gradient {
+  background: linear-gradient(115deg, #eef2ff 0%, #fceff1 64%, #ffffff 100%);
+}
+
+/* Glassmorphism for new style */
+.glass-card {
+  @apply bg-white/80 border border-pink-100 backdrop-blur-xl rounded-3xl shadow-xl;
 }

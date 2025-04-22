@@ -61,30 +61,29 @@ const ChatInput = ({ onSendMessage, isProcessing }: ChatInputProps) => {
   }, [typingTimeout]);
 
   return (
-    <form onSubmit={handleSubmit} className="relative">
-      <div className="relative bg-white/85 rounded-xl shadow-sm flex items-end border border-indigo-100">
+    <form onSubmit={handleSubmit} className="relative w-full">
+      <div className="relative bg-gradient-to-r from-pink-50 via-indigo-50 to-white rounded-2xl shadow-md flex items-end border border-indigo-100 ring-2 ring-pink-100 min-h-[55px]">
         <textarea
           ref={inputRef}
-          className="w-full bg-transparent px-4 py-3 rounded-xl resize-none text-base text-gray-800 focus-glow focus:outline-none"
-          placeholder={isProcessing ? "Processing..." : "Type your question, then press Enter"}
+          className="w-full bg-transparent px-4 py-4 rounded-2xl resize-none text-base text-indigo-800 placeholder:italic font-medium focus:outline-none focus:ring-2 focus:ring-pink-200 min-h-[55px] max-h-32 transition"
+          placeholder={isProcessing ? "AI is thinking..." : "Write your question and press Enter"}
           rows={2}
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           onKeyDown={handleKeyDown}
           disabled={isProcessing}
-          style={{ minHeight: 50, maxHeight: 120 }}
         />
         <Button
           type="submit"
           size="icon"
-          className="absolute right-2 bottom-2 bg-indigo-500 hover:bg-indigo-600 text-white rounded-lg"
+          className="absolute right-3 bottom-3 bg-pink-500 hover:bg-pink-600 text-white rounded-xl shadow focus:ring-2 focus:ring-pink-300 transition"
           disabled={!message.trim() || isProcessing}
         >
-          <Send size={20} />
+          <Send size={22} />
         </Button>
       </div>
       {isProcessing && (
-        <div className="text-xs text-indigo-400 mt-1 px-1 font-medium animate-pulse">
+        <div className="text-xs text-pink-400 mt-2 px-1 font-semibold animate-pulse text-center">
           AI is thinking...
         </div>
       )}
